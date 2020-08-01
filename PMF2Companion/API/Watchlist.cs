@@ -78,9 +78,11 @@ namespace PMF2Companion.API
                         ResponseMessage = Response.Content.ReadAsStringAsync().Result;
                         StatusCode = Response.StatusCode.ToString();
 
-                        if (Response.IsSuccessStatusCode && plugin.Config.VerboseMode)
-                            Log.Info($"[{StatusCode}] Watchlist - Success. Response from API: {ResponseMessage}");
-
+                        if (Response.IsSuccessStatusCode)
+                        {
+                            if (plugin.Config.VerboseMode)
+                                Log.Info($"[{StatusCode}] Watchlist - Success. Response from API: {ResponseMessage}");
+                        }
                         else
                             Log.Error($"[{StatusCode}] Watchlist - Error from API when trying to send after ban has been performed. Response from API: {ResponseMessage}");
                     }

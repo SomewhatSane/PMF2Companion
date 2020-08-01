@@ -33,8 +33,11 @@ namespace PMF2Companion.API
                 string ResponseMessage = Response.Content.ReadAsStringAsync().Result;
                 string StatusCode = Response.StatusCode.ToString();
 
-                if (Response.IsSuccessStatusCode && plugin.Config.VerboseMode)
-                    Log.Info($"[{StatusCode}] Watchlist Legacy - Success. Response from API: {ResponseMessage}.");
+                if (Response.IsSuccessStatusCode)
+                {
+                    if (plugin.Config.VerboseMode)
+                        Log.Info($"[{StatusCode}] Watchlist Legacy - Success. Response from API: {ResponseMessage}.");
+                }  
                 else
                     Log.Error($"[{StatusCode}] Watchlist Legacy - Error when sending data to API. Response from API: {ResponseMessage}.");
             }

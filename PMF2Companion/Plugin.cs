@@ -17,8 +17,8 @@ namespace PMF2Companion
         public override string Prefix { get; } = "pmf2";
         public override Version RequiredExiledVersion { get; } = new Version("2.0.9");
 
-        internal const string version = "1.0";
-        internal const string lastModified = "2020/08/01 10:25 UTC";
+        internal const string version = "1.0.1";
+        internal const string lastModified = "2020/08/01 16:40 UTC";
 
         public override void OnEnabled()
         {
