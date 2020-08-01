@@ -32,7 +32,7 @@ namespace PMF2Companion
             WatchlistLegacy = new API.WatchlistLegacy(this);
             UpdateCheck = new UpdateCheck(this);
 
-            if (Config.CheckForUpdates)
+            if (Config.CheckForUpdate)
                 _ = UpdateCheck.CheckForUpdate();
 
 

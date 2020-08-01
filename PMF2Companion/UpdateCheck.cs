@@ -29,7 +29,7 @@ namespace PMF2Companion
                 else if (dataarray[0] != Plugin.version)
                     Log.Info($"A new version of {plugin.Name} (v{dataarray[0]}) is available. Download it at: {dataarray[1]} .");
                 else
-                    Log.Error($"Unexpected reply from server when trying to check for updates. Response from server: {data}");
+                    Log.Error($"Unexpected reply from server when trying to check for update. Response from server: {data}");
 
                 if (dataarray[2].Trim() != null)
                     Log.Info($"Message from plugin author: {dataarray[2]}.");

@@ -14,8 +14,8 @@ namespace PMF2Companion
         [Description("Your API secret. DO NOT GIVE THIS OUT, as if you do, others can post data to your API.")]
         public string ApiSecret { get; private set; } = null;
 
-        [Description("Check for updates to PMF2Companion on startup.")]
-        public bool CheckForUpdates { get; private set; } = true;
+        [Description("Check for an update to PMF2Companion on startup.")]
+        public bool CheckForUpdate { get; private set; } = true;
 
         [Description("Verbose mode. Prints more console messages with useful information.")]
         public bool VerboseMode { get; private set; } = false;
