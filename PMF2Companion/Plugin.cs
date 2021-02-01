@@ -6,6 +6,7 @@ namespace PMF2Companion
 {
     public class Plugin : Plugin<Config>
     {
+        public API.DeathLog DeathLog;
         public API.Watchlist Watchlist;
         public API.WatchlistLegacy WatchlistLegacy;
         public UpdateCheck UpdateCheck;
@@ -15,10 +16,10 @@ namespace PMF2Companion
         public override string Name { get; } = "PMF2Companion";
         public override string Author { get; } = "SomewhatSane";
         public override string Prefix { get; } = "pmf2";
-        public override Version RequiredExiledVersion { get; } = new Version("2.0.9");
+        public override Version RequiredExiledVersion { get; } = new Version("2.1.30");
 
-        internal const string version = "1.0.1";
-        internal const string lastModified = "2020/08/01 16:40 UTC";
+        internal const string version = "1.0.5";
+        internal const string lastModified = "2021/02/01 20:46 UTC";
 
         public override void OnEnabled()
         {
@@ -28,6 +29,7 @@ namespace PMF2Companion
 
             Log.Info("Registering base Scripts.");
 
+            DeathLog = new API.DeathLog(this);
             Watchlist = new API.Watchlist(this);
             WatchlistLegacy = new API.WatchlistLegacy(this);
             UpdateCheck = new UpdateCheck(this);
@@ -38,7 +40,8 @@ namespace PMF2Companion
 
             Log.Info("Registering Event Handlers.");
             PlayerEventHandlers = new Handlers.PlayerEventHandlers(this);
-            PlayerEvents.Joined += PlayerEventHandlers.Joined;
+            PlayerEvents.Verified += PlayerEventHandlers.Verified;
+            PlayerEvents.Died += PlayerEventHandlers.Died;
 
             Log.Info("Done.");
         }
@@ -47,9 +50,11 @@ namespace PMF2Companion
         {
             if (!Config.IsEnabled) return;
 
-            PlayerEvents.Joined -= PlayerEventHandlers.Joined;
+            PlayerEvents.Verified -= PlayerEventHandlers.Verified;
+            PlayerEvents.Died -= PlayerEventHandlers.Died;
             PlayerEventHandlers = null;
 
+            DeathLog = null;
             Watchlist = null;
             WatchlistLegacy = null;
             UpdateCheck = null;

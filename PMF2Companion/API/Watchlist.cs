@@ -12,7 +12,7 @@ namespace PMF2Companion.API
     {
         private readonly Plugin plugin;
         public Watchlist(Plugin plugin) => this.plugin = plugin;
-        public async Task CheckWatchlist(JoinedEventArgs ev)
+        public async Task CheckWatchlist(VerifiedEventArgs ev)
         {
             using (HttpClient client = new HttpClient())
             {

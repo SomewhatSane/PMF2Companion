@@ -7,10 +7,15 @@ namespace PMF2Companion.Handlers
         private readonly Plugin plugin;
         public PlayerEventHandlers(Plugin plugin) => this.plugin = plugin;
 
-        public void Joined(JoinedEventArgs ev)
+        public void Verified(VerifiedEventArgs ev)
         {
-            _ = plugin.Watchlist.CheckWatchlist(ev);
-            _ = plugin.WatchlistLegacy.CheckWatchlistLegacy(ev);
+            if (plugin.Config.EnableWatchlist) _ = plugin.Watchlist.CheckWatchlist(ev);
+            if (plugin.Config.EnableWatchlistLegacy) _ = plugin.WatchlistLegacy.CheckWatchlistLegacy(ev);
+        }
+
+        public void Died(DiedEventArgs ev)
+        {
+            if (plugin.Config.EnableDeathLog) _ = plugin.DeathLog.SendDeath(ev);
         }
     }
 }

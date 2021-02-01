@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using Exiled.API.Features;
+﻿using Exiled.API.Features;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace PMF2Companion
 {
@@ -14,7 +14,7 @@ namespace PMF2Companion
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("User-Agent", $"{plugin.Name} Update Checker - Running {plugin.Name} v" + Plugin.version);
-                HttpResponseMessage response = await client.GetAsync("https://scpsl.somewhatsane.co.uk/plugins/pmf2companion/latest.html");
+                HttpResponseMessage response = await client.GetAsync("https://scpsl.somewhatsane.co.uk/plugins/pmf2companion/latestdl.html");
 
                 if (!response.IsSuccessStatusCode)
                 {

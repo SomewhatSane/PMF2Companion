@@ -1,9 +1,9 @@
 ﻿using Exiled.API.Features;
 using Exiled.Events.EventArgs;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System;
 
 namespace PMF2Companion.API
 {
@@ -12,7 +12,7 @@ namespace PMF2Companion.API
         private readonly Plugin plugin;
         public WatchlistLegacy(Plugin plugin) => this.plugin = plugin;
 
-        public async Task CheckWatchlistLegacy(JoinedEventArgs ev)
+        public async Task CheckWatchlistLegacy(VerifiedEventArgs ev)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -37,7 +37,7 @@ namespace PMF2Companion.API
                 {
                     if (plugin.Config.VerboseMode)
                         Log.Info($"[{StatusCode}] Watchlist Legacy - Success. Response from API: {ResponseMessage}.");
-                }  
+                }
                 else
                     Log.Error($"[{StatusCode}] Watchlist Legacy - Error when sending data to API. Response from API: {ResponseMessage}.");
             }
