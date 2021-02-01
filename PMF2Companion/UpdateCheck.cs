@@ -14,7 +14,7 @@ namespace PMF2Companion
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("User-Agent", $"{plugin.Name} Update Checker - Running {plugin.Name} v" + Plugin.version);
-                HttpResponseMessage response = await client.GetAsync("https://scpsl.somewhatsane.co.uk/plugins/pmf2companion/latestdl.html");
+                HttpResponseMessage response = await client.GetAsync("https://scpsl.somewhatsane.co.uk/plugins/pmf2companion/latest.html");
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -30,9 +30,6 @@ namespace PMF2Companion
                     Log.Info($"A new version of {plugin.Name} (v{dataarray[0]}) is available. Download it at: {dataarray[1]} .");
                 else
                     Log.Error($"Unexpected reply from server when trying to check for update. Response from server: {data}");
-
-                if (dataarray[2].Trim() != null)
-                    Log.Info($"Message from plugin author: {dataarray[2]}.");
             }
         }
     }
