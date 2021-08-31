@@ -27,19 +27,19 @@ namespace PMF2Companion.API
                     new KeyValuePair<string, string>("ServerAddress", ServerConsole.Ip + ":" + ServerConsole.Port)
                 });
 
-                if (plugin.Config.VerboseMode) Log.Info("[] Watchlist Legacy - Sending data to Watchlist Legacy.");
+                if (plugin.Config.VerboseMode) Log.Debug($"[] Watchlist Legacy - Sending data to watchlist legacy for {ev.Player.Nickname} ({ev.Player.UserId}).");
 
-                HttpResponseMessage Response = await client.PostAsync($"https://api.{plugin.Config.CustomerAccountName}.pmf2.somewhatsane.co.uk/WatchlistLegacy.php", data);
+                HttpResponseMessage Response = await client.PostAsync($"{plugin.Config.Pmf2ApiUrl}/WatchlistLegacy.php", data);
                 string ResponseMessage = Response.Content.ReadAsStringAsync().Result;
                 string StatusCode = Response.StatusCode.ToString();
 
                 if (Response.IsSuccessStatusCode)
                 {
                     if (plugin.Config.VerboseMode)
-                        Log.Info($"[{StatusCode}] Watchlist Legacy - Success. Response from API: {ResponseMessage}.");
+                        Log.Debug($"[{StatusCode}] Watchlist Legacy - Success. Response from API: {ResponseMessage}");
                 }
                 else
-                    Log.Error($"[{StatusCode}] Watchlist Legacy - Error when sending data to API. Response from API: {ResponseMessage}.");
+                    Log.Error($"[{StatusCode}] Watchlist Legacy - Error when sending data to API. Response from API: {ResponseMessage}");
             }
         }
     }

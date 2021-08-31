@@ -1,47 +1,54 @@
 ﻿using Exiled.API.Features;
 using System;
+using System.Reflection;
+using PMF2Companion.API;
+using PMF2Companion.Handlers;
 using PlayerEvents = Exiled.Events.Handlers.Player;
 
 namespace PMF2Companion
 {
     public class Plugin : Plugin<Config>
     {
-        public API.DeathLog DeathLog;
-        public API.Watchlist Watchlist;
-        public API.WatchlistLegacy WatchlistLegacy;
+        public Watchlist Watchlist;
+        public WatchlistLegacy WatchlistLegacy;
         public UpdateCheck UpdateCheck;
 
-        public Handlers.PlayerEventHandlers PlayerEventHandlers;
+        public PlayerEventHandlers PlayerEventHandlers;
 
         public override string Name { get; } = "PMF2Companion";
         public override string Author { get; } = "SomewhatSane";
         public override string Prefix { get; } = "pmf2";
-        public override Version RequiredExiledVersion { get; } = new Version("2.1.30");
+        public override Version RequiredExiledVersion { get; } = new Version("3.0.0");
 
-        internal const string version = "1.1.1";
-        internal const string lastModified = "2021/02/01 20:46 UTC";
+        private bool started;
+        public static readonly string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        internal const string lastModified = "2021/08/30 20:45 UTC";
 
         public override void OnEnabled()
         {
-            if (!Config.IsEnabled) return;
-            Log.Info($"{Name} v{version} by {Author}. Last Modified: {lastModified}.");
+            Log.Info($"{Name} v{version} by {Author}. Last modified: {lastModified}.");
             Log.Info("Loading configuration.");
 
-            Log.Info("Registering base Scripts.");
+            Log.Info("Loading base scripts.");
 
-            DeathLog = new API.DeathLog(this);
-            Watchlist = new API.Watchlist(this);
-            WatchlistLegacy = new API.WatchlistLegacy(this);
+            Watchlist = new Watchlist(this);
+            WatchlistLegacy = new WatchlistLegacy(this);
             UpdateCheck = new UpdateCheck(this);
 
             if (Config.CheckForUpdate)
                 _ = UpdateCheck.CheckForUpdate();
 
+            if (string.IsNullOrWhiteSpace(Config.Pmf2ApiUrl))
+            {
+                Log.Error("PMF2 API url is null. PMF2Companion cannot continue.");
+                return;
+            }
 
             Log.Info("Registering Event Handlers.");
-            PlayerEventHandlers = new Handlers.PlayerEventHandlers(this);
+            PlayerEventHandlers = new PlayerEventHandlers(this);
             PlayerEvents.Verified += PlayerEventHandlers.Verified;
-            PlayerEvents.Died += PlayerEventHandlers.Died;
+
+            started = true;
 
             Log.Info("Done.");
         }
@@ -50,16 +57,18 @@ namespace PMF2Companion
         {
             if (!Config.IsEnabled) return;
 
-            PlayerEvents.Verified -= PlayerEventHandlers.Verified;
-            PlayerEvents.Died -= PlayerEventHandlers.Died;
-            PlayerEventHandlers = null;
+            if (started)
+            {
+                PlayerEvents.Verified -= PlayerEventHandlers.Verified;
+                PlayerEventHandlers = null;
 
-            DeathLog = null;
-            Watchlist = null;
-            WatchlistLegacy = null;
-            UpdateCheck = null;
+                Watchlist = null;
+                WatchlistLegacy = null;
+                UpdateCheck = null;
+                started = false;
 
-            Log.Info("Disabled.");
+                Log.Info("Disabled.");
+            }
         }
     }
 }
