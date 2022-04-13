@@ -17,7 +17,7 @@ namespace PMF2Companion
 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("User-Agent", $"{plugin.Name} Update Checker - Running {plugin.Name} v" + Plugin.version);
+                client.DefaultRequestHeaders.Add("User-Agent", $"{plugin.Name} Update Checker - Running {plugin.Name} v{Plugin.version}");
                 HttpResponseMessage response = await client.GetAsync("https://scpsl.somewhatsane.co.uk/plugins/pmf2companion/latest.html");
 
                 if (!response.IsSuccessStatusCode)

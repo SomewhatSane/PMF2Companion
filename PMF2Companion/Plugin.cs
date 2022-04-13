@@ -16,13 +16,12 @@ namespace PMF2Companion
         public PlayerEventHandlers PlayerEventHandlers;
 
         public override string Name { get; } = "PMF2Companion";
-        public override string Author { get; } = "SomewhatSane";
+        public override string Author { get; } = "SomewhatSane (thisis@somewhatsane.co.uk)";
         public override string Prefix { get; } = "pmf2";
-        public override Version RequiredExiledVersion { get; } = new Version("3.0.0");
+        public override Version RequiredExiledVersion { get; } = new Version("5.1.3");
 
-        private bool started;
         public static readonly string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        internal const string lastModified = "2021/08/30 20:45 UTC";
+        internal const string lastModified = "2022/04/13 22:50 UTC";
 
         public override void OnEnabled()
         {
@@ -48,8 +47,6 @@ namespace PMF2Companion
             PlayerEventHandlers = new PlayerEventHandlers(this);
             PlayerEvents.Verified += PlayerEventHandlers.Verified;
 
-            started = true;
-
             Log.Info("Done.");
         }
 
@@ -57,18 +54,14 @@ namespace PMF2Companion
         {
             if (!Config.IsEnabled) return;
 
-            if (started)
-            {
-                PlayerEvents.Verified -= PlayerEventHandlers.Verified;
-                PlayerEventHandlers = null;
+            PlayerEvents.Verified -= PlayerEventHandlers.Verified;
+            PlayerEventHandlers = null;
 
-                Watchlist = null;
-                WatchlistLegacy = null;
-                UpdateCheck = null;
-                started = false;
+            Watchlist = null;
+            WatchlistLegacy = null;
+            UpdateCheck = null;
 
-                Log.Info("Disabled.");
-            }
+            Log.Info("Disabled.");
         }
     }
 }

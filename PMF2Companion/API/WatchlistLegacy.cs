@@ -16,6 +16,7 @@ namespace PMF2Companion.API
         {
             using (HttpClient client = new HttpClient())
             {
+                Log.Debug(ev.Player.Connection.address);
                 var data = new FormUrlEncodedContent(new[]
                 {
                     new KeyValuePair<string, string>("APISecret", plugin.Config.ApiSecret),
@@ -24,8 +25,9 @@ namespace PMF2Companion.API
                     new KeyValuePair<string, string>("PlayerPlayerID", ev.Player.Id.ToString()),
                     new KeyValuePair<string, string>("PlayerIPAddress", ev.Player.Connection.address),
                     new KeyValuePair<string, string>("DateAndTime", DateTime.Now.ToString()),
-                    new KeyValuePair<string, string>("ServerAddress", ServerConsole.Ip + ":" + ServerConsole.Port)
+                    new KeyValuePair<string, string>("ServerAddress", $"{ServerConsole.Ip}:{ServerConsole.Port}")
                 });
+
 
                 if (plugin.Config.VerboseMode) Log.Debug($"[] Watchlist Legacy - Sending data to watchlist legacy for {ev.Player.Nickname} ({ev.Player.UserId}).");
 
